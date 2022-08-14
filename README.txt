@@ -1,6 +1,13 @@
-#BattlePy = BatallaNaval
+# BattlePy = BatallaNaval
 
 Sorry for using spanish in some parts of the project, I started it as a project that 
-was supposed to be seen by nobody
+was not supposed to be seen by anybody.
 
-Just run BatallaNaval.py that file has the main
+## Usage
+Run BatallaNaval.py
+
+## Contributing
+Pull requests are welcome. This is not something really important, I just made it for fun.
+
+## License 
+[MIT](https://choosealicense.com/licenses/mit/)
