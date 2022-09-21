@@ -1,76 +1,80 @@
 from PcBatallaNaval import BatallaNavalIA
 from UserBatallaNaval import PlayerBatallaNaval
 
-print("Ingrese el nombre de usuario: ")
-userName = input()
+def main():
+    print("Ingrese el nombre de usuario: ")
+    userName = input()
 
-# Verifying that the initial inputs are only numbers
-while True:
-    try:
-        print("Ingrese el tamaño del tablero: ")
-        tableSize = int(input())
-        print("Ingrese la cantidad de barcos con la que jugará: ")
-        totalShips = int(input())
-        break
-    except ValueError:
-        print("!!!Por favor ingrese solo números!!!")
+    # Verifying that the initial inputs are only numbers
+    while True:
+        try:
+            print("Ingrese el tamaño del tablero: ")
+            tableSize = int(input())
+            print("Ingrese la cantidad de barcos con la que jugará: ")
+            totalShips = int(input())
+            break
+        except ValueError:
+            print("!!!Por favor ingrese solo números!!!")
 
-# Creation of both empty maps
-tableTokenPC = ' * '
-tableTokenUser = ' - '
-tablePC = [[tableTokenPC for _ in range(tableSize)] for _ in range(tableSize)]
-tablePCUnseen = [[tableTokenPC for _ in range(tableSize)] for _ in range(tableSize)]
-tableUser = [[tableTokenUser for _ in range(tableSize)] for _ in range(tableSize)]
+    # Creation of both empty maps
+    tableTokenPC = ' * '
+    tableTokenUser = ' - '
+    tablePC = [[tableTokenPC for _ in range(tableSize)] for _ in range(tableSize)]
+    tablePCUnseen = [[tableTokenPC for _ in range(tableSize)] for _ in range(tableSize)]
+    tableUser = [[tableTokenUser for _ in range(tableSize)] for _ in range(tableSize)]
 
-# Some values to assign an image in the game
-ship = ' B '
-wrongShot = ' X '
-goodShot = ' A '
-play = True
-shipsUser = totalShips
-shipsPC = totalShips
+    # Some values to assign an image in the game
+    ship = ' B '
+    wrongShot = ' X '
+    goodShot = ' A '
+    play = True
+    shipsUser = totalShips
+    shipsPC = totalShips
 
-pc = BatallaNavalIA(tablePC, tablePCUnseen, tableUser,
-                    totalShips, tableSize, wrongShot, goodShot, ship)
+    pc = BatallaNavalIA(tablePC, tablePCUnseen, tableUser,
+                        totalShips, tableSize, wrongShot, goodShot, ship)
 
-user = PlayerBatallaNaval(tableUser, tablePC, tablePCUnseen,
-                          tableSize, totalShips, ship, userName, wrongShot, goodShot)
-
-
-def PrintTable(table, tableSize):
-    for i in range(tableSize):
-        for j in range(tableSize):
-            if j < tableSize - 1:
-                print(table[i][j], end="")
-            else:
-                print(table[i][j])
+    user = PlayerBatallaNaval(tableUser, tablePC, tablePCUnseen,
+                            tableSize, totalShips, ship, userName, wrongShot, goodShot)
 
 
-def PrintGame(userName, table1, table2, tableSize):
-    print('----Tablero del PC----')
-    PrintTable(table2, tableSize)
-    print(f'----Tablero de {userName}----')
-    PrintTable(table1, tableSize)
+    def PrintTable(table, tableSize):
+        for i in range(tableSize):
+            for j in range(tableSize):
+                if j < tableSize - 1:
+                    print(table[i][j], end="")
+                else:
+                    print(table[i][j])
 
 
-pc.PCShipsPlacing()
+    def PrintGame(userName, table1, table2, tableSize):
+        print('----Tablero del PC----')
+        PrintTable(table2, tableSize)
+        print(f'----Tablero de {userName}----')
+        PrintTable(table1, tableSize)
 
 
-user.UserShipsPlacing()
+    pc.PCShipsPlacing()
 
-PrintGame(userName, tableUser, tablePC, tableSize)
 
-while play:
-    user.UserAttack()
-
-    pc.Attack()
+    user.UserShipsPlacing()
 
     PrintGame(userName, tableUser, tablePC, tableSize)
 
-    # TODO Recordar cambiar lo de total ships, para que cada clase maneje su propio contador de barcos
-    if user.totalShips == 0:
-        print(f"Ganó {userName}")
-        play = False
-    elif pc.totalShips == 0:
-        print("Ganó el pc")
-        play = False
+    while play:
+        user.UserAttack()
+
+        pc.Attack()
+
+        PrintGame(userName, tableUser, tablePC, tableSize)
+
+        # TODO Recordar cambiar lo de total ships, para que cada clase maneje su propio contador de barcos
+        if user.totalShips == 0:
+            print(f"Ganó {userName}")
+            play = False
+        elif pc.totalShips == 0:
+            print("Ganó el pc")
+            play = False
+
+if __name__ == "__main__":
+    main()
