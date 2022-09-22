@@ -1,5 +1,7 @@
 from PcBatallaNaval import BatallaNavalIA
 from UserBatallaNaval import PlayerBatallaNaval
+from Printer import Table
+
 
 def main():
     print("Ingrese el nombre de usuario: ")
@@ -19,9 +21,12 @@ def main():
     # Creation of both empty maps
     tableTokenPC = ' * '
     tableTokenUser = ' - '
-    tablePC = [[tableTokenPC for _ in range(tableSize)] for _ in range(tableSize)]
-    tablePCUnseen = [[tableTokenPC for _ in range(tableSize)] for _ in range(tableSize)]
-    tableUser = [[tableTokenUser for _ in range(tableSize)] for _ in range(tableSize)]
+    tablePC = [[tableTokenPC for _ in range(
+        tableSize)] for _ in range(tableSize)]
+    tablePCUnseen = [[tableTokenPC for _ in range(
+        tableSize)] for _ in range(tableSize)]
+    tableUser = [[tableTokenUser for _ in range(
+        tableSize)] for _ in range(tableSize)]
 
     # Some values to assign an image in the game
     ship = ' B '
@@ -35,31 +40,15 @@ def main():
                         totalShips, tableSize, wrongShot, goodShot, ship)
 
     user = PlayerBatallaNaval(tableUser, tablePC, tablePCUnseen,
-                            tableSize, totalShips, ship, userName, wrongShot, goodShot)
-
-
-    def PrintTable(table, tableSize):
-        for i in range(tableSize):
-            for j in range(tableSize):
-                if j < tableSize - 1:
-                    print(table[i][j], end="")
-                else:
-                    print(table[i][j])
-
-
-    def PrintGame(userName, table1, table2, tableSize):
-        print('----Tablero del PC----')
-        PrintTable(table2, tableSize)
-        print(f'----Tablero de {userName}----')
-        PrintTable(table1, tableSize)
-
+                              tableSize, totalShips, ship, userName, wrongShot, goodShot)
 
     pc.PCShipsPlacing()
 
-
     user.UserShipsPlacing()
 
-    PrintGame(userName, tableUser, tablePC, tableSize)
+    pt = Table(tableSize)
+
+    pt.printGame(userName, tablePC, tableUser)
 
     while play:
         user.UserAttack()
@@ -75,6 +64,7 @@ def main():
         elif pc.totalShips == 0:
             print("Ganó el pc")
             play = False
+
 
 if __name__ == "__main__":
     main()

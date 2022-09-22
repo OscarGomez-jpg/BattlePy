@@ -1,4 +1,4 @@
-from BatallaNaval import PrintTable as pt
+from Printer import Table
 
 
 class PlayerBatallaNaval():
@@ -12,6 +12,7 @@ class PlayerBatallaNaval():
         self.name = userName
         self.wrongHit = wrongHit
         self.goodHit = goodHit
+        self.pt = Table(self.table, self.tableSize)
 
     def UserShipsPlacing(self):
         acu = 1
@@ -28,7 +29,7 @@ class PlayerBatallaNaval():
                 coordY -= 1
                 coordX -= 1
                 self.table[coordY][coordX] = self.ship
-                pt(self.table, self.tableSize)
+                self.pt.printGame(self.name, self.table)
                 acu += 1
             except (ValueError, IndexError):
                 print(f"Por favor coloca un número del 1 al {self.tableSize}")
