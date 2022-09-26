@@ -55,7 +55,8 @@ def main():
 
         pc.Attack()
 
-        PrintGame(userName, tableUser, tablePC, tableSize)
+        #PrintGame(userName, tableUser, tablePC, tableSize)
+        pt.printGame(userName, tablePC, tableUser)
 
         # TODO Recordar cambiar lo de total ships, para que cada clase maneje su propio contador de barcos
         if user.totalShips == 0:
