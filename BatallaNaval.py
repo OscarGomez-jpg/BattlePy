@@ -1,67 +1,82 @@
-from PcBatallaNaval import BatallaNavalIA
-from UserBatallaNaval import PlayerBatallaNaval
-from Printer import Table
+from pc_battle_ship import BatallaNavalIA
+from player_battle_ship import Player
+from printer import Table
 
 
 def main():
+    """
+    Main game loop for the Battleship game.
+
+    The game starts by prompting the user to enter their name and the size of the game board.
+    The user is then prompted to enter the number of ships they will use.
+
+    The game then creates two empty maps, one for the player and one for the computer.
+    Each map is filled with asterisks ('*') to represent the squares on the game board.
+
+    The game then assigns an image to each ship, and sets the initial state of the game.
+    The player and computer take turns placing their ships on the game board.
+
+    The game ends when one player's ships are all sunk or when both players have placed all of
+    their ships.
+    The winner is determined by the number of ships remaining on the game board.
+
+    The game uses the `BatallaNavalIA` class to represent the computer's moves, and the
+    `PlayerBatallaNaval` class to represent the player's moves. The `Table` class is used to
+    print the game board and keep track of the game state.
+
+    The game uses a `while` loop to continue playing until the game is over.
+    The loop checks if either player has won, and if not, it continues to the next turn.
+
+    The game also includes some comments to explain the purpose of each part of the code.
+    """
     print("Ingrese el nombre de usuario: ")
-    userName = input()
+    user_name = input()
 
     # Verifying that the initial inputs are only numbers
     while True:
         try:
             print("Ingrese el tamaño del tablero: ")
-            tableSize = int(input())
+            table_size = int(input())
             print("Ingrese la cantidad de barcos con la que jugará: ")
-            totalShips = int(input())
+            total_ships = int(input())
             break
         except ValueError:
             print("!!!Por favor ingrese solo números!!!")
 
     # Creation of both empty maps
-    tableTokenPC = ' * '
-    tableTokenUser = ' - '
-    tablePC = [[tableTokenPC for _ in range(
-        tableSize)] for _ in range(tableSize)]
-    tablePCUnseen = [[tableTokenPC for _ in range(
-        tableSize)] for _ in range(tableSize)]
-    tableUser = [[tableTokenUser for _ in range(
-        tableSize)] for _ in range(tableSize)]
+    table_token_pc = " * "
+    table_token_user = " - "
+    table_pc = [[table_token_pc for _ in range(table_size)] for _ in range(table_size)]
+    table_user = [
+        [table_token_user for _ in range(table_size)] for _ in range(table_size)
+    ]
 
     # Some values to assign an image in the game
-    ship = ' B '
-    wrongShot = ' X '
-    goodShot = ' A '
+    ship = " B "
+    wrong_shot = " X "
+    good_shot = " A "
     play = True
-    shipsUser = totalShips
-    shipsPC = totalShips
 
-    pc = BatallaNavalIA(tablePC, tablePCUnseen, tableUser,
-                        totalShips, tableSize, wrongShot, goodShot, ship)
+    pc = BatallaNavalIA(total_ships, table_size, wrong_shot, good_shot, ship)
+    user = Player(total_ships, ship)
 
-    user = PlayerBatallaNaval(tableUser, tablePC, tablePCUnseen,
-                              tableSize, totalShips, ship, userName, wrongShot, goodShot)
+    pc.shipsPlacing()
 
-    pc.PCShipsPlacing()
+    user.shipsPlacing(0, 0)
 
-    user.UserShipsPlacing()
+    pt = Table(table_size)
 
-    pt = Table(tableSize)
-
-    pt.printGame(userName, tablePC, tableUser)
+    pt.printGame(user_name, table_pc, table_user)
 
     while play:
-        user.UserAttack()
+        pc.attack(user.ships_location)
 
-        pc.Attack()
+        pt.printGame(user_name, table_user, table_pc, table_size)
 
-        PrintGame(userName, tableUser, tablePC, tableSize)
-
-        # TODO Recordar cambiar lo de total ships, para que cada clase maneje su propio contador de barcos
-        if user.totalShips == 0:
-            print(f"Ganó {userName}")
+        if user.total_ships == 0:
+            print(f"Ganó {user_name}")
             play = False
-        elif pc.totalShips == 0:
+        elif pc.total_ships == 0:
             print("Ganó el pc")
             play = False
 

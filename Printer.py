@@ -1,21 +1,21 @@
-class Table():
-    def __init__(self, table = [], tableSize = 3) -> None:
+class Table:
+    def __init__(self, table, table_size=3) -> None:
         self.table = table
-        self.tableSize = tableSize
+        self.table_size = table_size
 
     def printTable(self):
-        for i in range(self.tableSize):
-            for j in range(self.tableSize):
-                if j < self.tableSize - 1:
+        for i in range(self.table_size):
+            for j in range(self.table_size):
+                if j < self.table_size - 1:
                     print(self.table[i][j], end="")
                 else:
                     print(self.table[i][j])
-    
-    def printGame(self, userName, *args):
+
+    def printGame(self, user_name, *args):
         for i in args:
-            print('----Tablero del PC----')
+            print("----Tablero del PC----")
             self.table = i
             self.printTable()
-            print(f'----Tablero de {userName}----')
+            print(f"----Tablero de {user_name}----")
             self.table = i
             self.printTable()
