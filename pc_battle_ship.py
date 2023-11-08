@@ -1,5 +1,5 @@
-from player_battle_ship import Player
 import random
+from player_battle_ship import Player
 
 
 class BatallaNavalIA(Player):
@@ -20,15 +20,19 @@ class BatallaNavalIA(Player):
         self.acu = 0
 
     def shipsPlacing(self):
-        acu = 1
-        while acu <= self.total_ships:
+        acu = 0
+        while acu < self.total_ships:
             coord_x = random.randint(0, self.table_size - 1)
             coord_y = random.randint(0, self.table_size - 1)
 
+            add = True
             for ship in self.ships_location:
-                if ship[0] != coord_x and ship[0] != coord_y:
-                    self.ships_location.append([coord_x, coord_y])
-                    acu += 1
+                if ship[0] == coord_x and ship[1] == coord_y:
+                    add = False
+
+            if add:
+                self.ships_location.append([coord_x, coord_y])
+                acu += 1
 
     def attack(self, opponent_ships):
         # print(self.acu)
