@@ -9,11 +9,8 @@ class Printer:
                 print(self.table[i][j], end="")
             print(self.table[i][j])
 
-    def printGame(self, user_name, *args):
-        for i in args:
-            print("----Tablero del PC----")
-            self.table = i
-            self.printTable()
-            print(f"----Tablero de {user_name}----")
-            self.table = i
-            self.printTable()
+    def printGame(self, user_name):
+        print("----Tablero del PC----")
+        self.printTable()
+        print(f"----Tablero de {user_name}----")
+        self.printTable()
