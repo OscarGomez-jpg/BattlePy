@@ -8,8 +8,12 @@ class Game:
         self.play = True
         self.user_name = ""
 
-    def process_attack(self, source, dest):
-        pass
+    def process_attack(self, source_list, dest_list):
+        for coord in dest_list:
+            if source_list[0] == coord[0] and source_list[1] == coord[1]:
+                dest_list.remove(coord)
+                return True
+        return False
 
     def run(self):
         self.user_name = input("Ingrese el nombre de usuario: ")
@@ -27,7 +31,6 @@ class Game:
 
         # Creation of both empty maps
         table_token_pc = " * "
-        table_token_user = " - "
         table = [[table_token_pc for _ in range(table_size)] for _ in range(table_size)]
 
         # Some values to assign an character in the game
@@ -56,12 +59,35 @@ class Game:
             except IOError:
                 print("¡Esa posición ya está ocupada!")
 
-        pt = Printer(table_size)
-        pt.printGame(self.user_name, table)
+        printer = Printer(table, table_size)
+        printer.printGame(self.user_name)
 
         while self.play:
-            pc.attack(user.ships_location)
-            pt.printGame(self.user_name, table)
+            correct_input = False
+            while not correct_input:
+                try:
+                    coord_x = int(input("Ingrese la coordenada en x del ataque: "))
+                    coord_y = int(input("Ingrese la coordenada en y del ataque: "))
+                    correct_input = True
+                except ValueError:
+                    print("¡Ingrese coordenadas válidas!")
+
+            res = self.process_attack([coord_x, coord_y], pc.ships_location)
+
+            if res:
+                printer.table[coord_y][coord_x] = good_shot
+            else:
+                printer.table[coord_y][coord_x] = wrong_shot
+
+            pc_coords = pc.attack()
+            pc_res = self.process_attack(pc_coords, user.ships_location)
+
+            if pc_res:
+                printer.table[pc_coords[1]][pc_coords[0]] = good_shot
+            else:
+                printer.table[pc_coords[1]][pc_coords[0]] = wrong_shot
+
+            printer.printGame(self.user_name)
 
             if user.total_ships == 0:
                 print(f"Ganó {self.user_name}")

@@ -17,7 +17,6 @@ class BatallaNavalIA(Player):
         self.wrong_hit = wrong_hit
         self.good_hit = good_hit
         self.ship = ship_token
-        self.acu = 0
 
     def shipsPlacing(self):
         acu = 0
@@ -26,27 +25,17 @@ class BatallaNavalIA(Player):
             coord_y = random.randint(0, self.table_size - 1)
 
             add = True
-            for ship in self.ships_location:
-                if ship[0] == coord_x and ship[1] == coord_y:
+            for ship_l in self.ships_location:
+                if ship_l[0] == coord_x and ship_l[1] == coord_y:
                     add = False
 
             if add:
                 self.ships_location.append([coord_x, coord_y])
                 acu += 1
 
-    def attack(self, opponent_ships):
+    def attack(self):
         # print(self.acu)
         attack_x = random.randint(0, self.table_size - 1)
         attack_y = random.randint(0, self.table_size - 1)
 
-        if opponent_ships[attack_y][attack_x] == self.ship:
-            opponent_ships[attack_y][attack_x] = self.good_hit
-            self.total_ships -= 1
-        elif opponent_ships[attack_y][attack_x] == self.good_hit:
-            self.attack(opponent_ships)
-            # self.acu += 1
-        elif opponent_ships[attack_y][attack_x] == self.wrong_hit:
-            self.attack(opponent_ships)
-            # self.acu += 1
-        else:
-            opponent_ships[attack_y][attack_x] = self.wrong_hit
+        return [attack_x, attack_y]
