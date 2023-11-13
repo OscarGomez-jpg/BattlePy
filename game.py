@@ -29,14 +29,14 @@ class Game:
             except ValueError:
                 print("!!!Por favor ingrese solo números!!!")
 
-        # Creation of both empty maps
-        table_token_pc = " * "
+        # Creation the empty map
+        table_token_pc = "*"
         table = [[table_token_pc for _ in range(table_size)] for _ in range(table_size)]
 
-        # Some values to assign an character in the game
-        ship = " B "
-        wrong_shot = " X "
-        good_shot = " A "
+        # Characters in the map
+        ship = "B"
+        wrong_shot = "X"
+        good_shot = "A"
 
         pc = BatallaNavalIA(total_ships, table_size, wrong_shot, good_shot, ship)
         user = Player(total_ships, ship)
@@ -59,39 +59,40 @@ class Game:
             except IOError:
                 print("¡Esa posición ya está ocupada!")
 
-        printer = Printer(table, table_size)
-        printer.printGame(self.user_name)
+        printer = Printer(table, table_size, self.user_name)
+        # printer.printGame(self.user_name)
 
         while self.play:
-            correct_input = False
-            while not correct_input:
-                try:
-                    coord_x = int(input("Ingrese la coordenada en x del ataque: "))
-                    coord_y = int(input("Ingrese la coordenada en y del ataque: "))
-                    correct_input = True
-                except ValueError:
-                    print("¡Ingrese coordenadas válidas!")
+            # correct_input = False
+            # while not correct_input:
+            #     try:
+            #         coord_x = int(input("Ingrese la coordenada en x del ataque: "))
+            #         coord_y = int(input("Ingrese la coordenada en y del ataque: "))
+            #         correct_input = True
+            #     except ValueError:
+            #         print("¡Ingrese coordenadas válidas!")
 
-            res = self.process_attack([coord_x, coord_y], pc.ships_location)
+            # res = self.process_attack([coord_x, coord_y], pc.ships_location)
 
-            if res:
-                printer.table[coord_y][coord_x] = good_shot
-            else:
-                printer.table[coord_y][coord_x] = wrong_shot
+            # if res:
+            #     printer.table[coord_y][coord_x] = good_shot
+            # else:
+            #     printer.table[coord_y][coord_x] = wrong_shot
 
-            pc_coords = pc.attack()
-            pc_res = self.process_attack(pc_coords, user.ships_location)
+            # pc_coords = pc.attack()
+            # pc_res = self.process_attack(pc_coords, user.ships_location)
 
-            if pc_res:
-                printer.table[pc_coords[1]][pc_coords[0]] = good_shot
-            else:
-                printer.table[pc_coords[1]][pc_coords[0]] = wrong_shot
+            # if pc_res:
+            #     printer.table[pc_coords[1]][pc_coords[0]] = good_shot
+            # else:
+            #     printer.table[pc_coords[1]][pc_coords[0]] = wrong_shot
 
-            printer.printGame(self.user_name)
+            # printer.printGame(self.user_name)
+            printer.printGame()
 
-            if user.total_ships == 0:
-                print(f"Ganó {self.user_name}")
-                self.play = False
-            elif pc.total_ships == 0:
-                print("Ganó el pc")
-                self.play = False
+            # if user.total_ships == 0:
+            #     print(f"Ganó {self.user_name}")
+            #     self.play = False
+            # elif pc.total_ships == 0:
+            #     print("Ganó el pc")
+            #     self.play = False
