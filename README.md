@@ -1,15 +1,22 @@
-# BattlePy = BatallaNaval
+# BattlePy
+
+<!--toc:start-->
+- [BattlePy = BatallaNaval](#battlepy-batallanaval)
+  - [Usage](#usage)
+  - [Contributing](#contributing)
+  - [License](#license)
+<!--toc:end-->
 
 BattlePy is a project made in python based on the popular table game "Battleship"
 
-Sorry for using spanish in some parts of the project, I started it as a project that 
-was not supposed to be seen by anybody.
-
 ## Usage
+
 Run BatallaNaval.py
 
 ## Contributing
+
 Pull requests are welcome. This is not something really important, I just made it for fun.
 
-## License 
+## License
+
 [MIT](https://choosealicense.com/licenses/mit/)
