@@ -1,9 +1,9 @@
-from Printer import Table
 from entities.enemy import Enemy
-from entities.user import PlayerBatallaNaval
+from entities.user import Player
+from utils.printer import Printer
 
 
-def user_ships_placing(user_table, totalShips):
+def user_ships_placing(user_ships, user_table, totalShips):
     acu = 1
     while acu <= totalShips:
         try:
@@ -13,14 +13,26 @@ def user_ships_placing(user_table, totalShips):
             coordX = int(input("Elija la coordenada X: "))
             coordY = int(input("Elija la coordenada Y: "))
 
-            if coordX == 0 or coordY == 0:
+            if 0 >= coordX >= len(user_table) or 0 >= coordY >= len(user_table):
                 raise ValueError
 
             coordY -= 1
             coordX -= 1
             acu += 1
+
+            user_ships.append([coordX, coordY])
         except (ValueError, IndexError):
             print(f"Por favor coloca un número del 1 al {len(user_table)}")
+
+
+def manage_attack(table, attack):
+    print(len(attack))
+    hitted = table[attack[1]][attack[0]] == "B"
+
+    if hitted:
+        table[attack[1]][attack[0]] = "H"
+    else:
+        table[attack[1]][attack[0]] = "W"
 
 
 def main():
@@ -36,44 +48,33 @@ def main():
             totalShips = int(input("Insert total ships: "))
             verified = True
         except ValueError:
-            print("!!!Por favor ingrese solo números!!!")
+            print("!!!Please, only numbers!!!")
 
     # Creation of both empty maps
-    tableToken = " - "
+    tableToken = "-"
     tablePC = [[tableToken for _ in range(tableSize)] for _ in range(tableSize)]
-    tablePCUnseen = [[tableToken for _ in range(tableSize)] for _ in range(tableSize)]
     tableUser = [[tableToken for _ in range(tableSize)] for _ in range(tableSize)]
 
-    user_ships_placing(tableUser, totalShips)
-
-    # Some values to assign an image in the game
-    ship = " B "
-    wrongShot = " X "
-    goodShot = " A "
+    # Game state
     play = True
 
     pc = Enemy(tablePC, tableUser, totalShips)
+    user = Player(tableUser, tablePC, totalShips, userName)
+    printer = Printer()
 
-    user = PlayerBatallaNaval(tableUser, tablePC, totalShips, userName)
-
-    pt = Table(tableSize)
-
-    pt.printGame(userName, tablePC, tableUser)
+    user_ships_placing(user.table, totalShips, user.ships)
 
     while play:
-        user.UserAttack()
+        user_coords = user.attack()
 
-        pc.Attack()
+        manage_attack(tablePC, user_coords)
 
-        # PrintGame(userName, tableUser, tablePC, tableSize)
+        # pc_coords = pc.attack()
 
-        # TODO Recordar cambiar lo de total ships, para que cada clase maneje su propio contador de barcos
-        # if user.totalShips == 0:
-        #     print(f"Ganó {userName}")
-        #     play = False
-        # elif pc.totalShips == 0:
-        #     print("Ganó el pc")
-        #     play = False
+        # manage_attack(tableUser, pc_coords)
+
+        printer.print_table(user.table, user.username, user.ships)
+        printer.print_table(pc.table, pc.username, pc.ships)
 
 
 if __name__ == "__main__":
