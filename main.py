@@ -26,7 +26,6 @@ def user_ships_placing(user_ships, user_table, totalShips):
 
 
 def manage_attack(table, attack):
-    print(len(attack))
     hitted = table[attack[1]][attack[0]] == "B"
 
     if hitted:
@@ -62,16 +61,16 @@ def main():
     user = Player(tableUser, tablePC, totalShips, userName)
     printer = Printer()
 
-    user_ships_placing(user.table, totalShips, user.ships)
+    user_ships_placing(user.ships, user.table, totalShips)
 
     while play:
         user_coords = user.attack()
 
         manage_attack(tablePC, user_coords)
 
-        # pc_coords = pc.attack()
+        pc_coords = pc.attack()
 
-        # manage_attack(tableUser, pc_coords)
+        manage_attack(tableUser, pc_coords)
 
         printer.print_table(user.table, user.username, user.ships)
         printer.print_table(pc.table, pc.username, pc.ships)
